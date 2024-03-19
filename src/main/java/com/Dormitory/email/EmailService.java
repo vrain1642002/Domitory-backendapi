@@ -30,7 +30,7 @@ public class EmailService {
         // message.setText(body);
         // message.setSubject(subject);
         // mailSender.send(message);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -71,8 +71,9 @@ public class EmailService {
         // message.setText(body);
         // message.setSubject(subject);
         // mailSender.send(message);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         MimeMessage message = mailSender.createMimeMessage();
+        String isCooked = roomType.getIsCooked() == true ? "Cho phép" : "Không cho phép";
         String isAir = roomType.getIsAirConditioned() == true ? "Có" : "Không có";
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -184,7 +185,8 @@ public class EmailService {
                     "          <td>"+contract.getTotalPrice()+" vnđ</td>\r\n" + //
                     "        </tr>\r\n" + //
                     "        <tr>\r\n" + //
-                    "          <td class=\"title\">:</td>\r\n" + //
+                    "          <td class=\"title\">Cho phép nấu ăn:</td>\r\n" + //
+                    "          <td>"+isCooked+"</td>\r\n" + //
                     "        </tr>\r\n" + //
                     "        <tr>\r\n" + //
                     "          <td class=\"title\">Có máy lạnh:</td>\r\n" + //
@@ -289,9 +291,9 @@ public class EmailService {
                     "                ><em\r\n" + //
                     "                  >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<u>Lưu ý:</u></em\r\n" + //
                     "                ></strong\r\n" + //
-                    "              >&nbsp;Nếu không đóng phí đúng thời hạn, sẽ bị thêm vào <em\r\n" + //
-                    "                ><b>DANH SÁCH ĐEN</b></em\r\n" + //
-                    "              >&nbsp;, kết quả đăng ký phòng sẽ bị hủy và không thể đăng ký ở các kỳ kế tiếp.<strong\r\n" + //
+                    "              >&nbsp;Nếu không đóng phí đúng thời hạn, sẽ bị  <em\r\n" + //
+                    "                ><b>HỦY KẾT QUẢ ĐĂNG KÝ</b></em\r\n" + //
+                    "              >&nbsp;, .<strong\r\n" + //
                     "                >&nbsp;</strong\r\n" + //
                     "              >&nbsp;\r\n" + //
                     "              &nbsp;<em\r\n" + //
@@ -322,7 +324,7 @@ public class EmailService {
                     "              <span style=\"font-size: 10pt\"\r\n" + //
                     "                ><strong\r\n" + //
                     "                  >SV cũ không đăng ký ở tiếp trong học kỳ 1, năm học\r\n" + //
-                    "                  2024-2025:&nbsp;</strong\r\n" + //
+                    "                  2023-2024:&nbsp;</strong\r\n" + //
                     "                >SV phải làm vệ sinh sạch sẽ giường ở, phòng ở trước khi hoàn\r\n" + //
                     "                thành thủ tục trả chỗ. SV tự làm hoặc thuê người dọn vệ sinh, tự\r\n" + //
                     "                thanh toán chi phí và hoàn tất thủ tục trả chỗ vào ngày\r\n" + //
@@ -338,8 +340,8 @@ public class EmailService {
                     "              ><span style=\"font-size: 13.3333px\"\r\n" + //
                     "                ><b\r\n" + //
                     "                  >SV không ở tiếp có thể báo ngày trả chỗ vào email:&nbsp;<i\r\n" + //
-                    "                    ><a href=\"mailto:ktx@stu.edu.vn\" target=\"_blank\"\r\n" + //
-                    "                      ><span class=\"il\">lvut</span>ktx@stu.edu.vn</a\r\n" + //
+                    "                    ><a href=\"mailto:ktxstu@.edu.vn\" target=\"_blank\"\r\n" + //
+                    "                      ><span class=\"il\">ktx</span>@stu.edu.vn</a\r\n" + //
                     "                    ></i\r\n" + //
                     "                  ></b\r\n" + //
                     "                ></span\r\n" + //
@@ -366,10 +368,10 @@ public class EmailService {
                     "        </div>\r\n" + //
                     "      </div>\r\n" + //
                     "      <div class=\"footer\">\r\n" + //
-                    "        <p>Ký túc xá Đại học STU</p>\r\n" + //
-                    "        <p>Ban quản lý ký túc xá </p>\r\n" + //
+                    "        <p>Ký túc xá Đại học Công nghệ Sài Gòn</p>\r\n" + //
+                    "        <p>Ban quản lý ký túc xá</p>\r\n" + //
                     "        <p>\r\n" + //
-                    "          Điện thoại Văn phòng:  - Điện thoại di động: \r\n" + //
+                    "          Điện thoại Văn phòng:- Điện thoại di động: \r\n" + //
                     "          (Zalo)\r\n" + //
                     "        </p>\r\n" + //
                     "      </div>\r\n" + //
@@ -386,12 +388,12 @@ public class EmailService {
             // + "<br />"
             // + "---<br />"
             // + "<div style='color: rgb(255, 0, 0); font-weight: bold'>"
-            // + "Ký túc xá Đại học STU"
+            // + "Ký túc xá Đại học Cần Thơ"
             // + "</div>"
             // + "<div style='font-weight: bold; color: rgb(255, 0, 255)'>"
-            // + "Ban quản lý ký túc xá"
+            // + "Trung tâm phục vụ Sinh viên - Phòng Cộng tác sinh viên"
             // + "</div>"
-            // + "<div>ĐT Văn phòng:  - DĐ:  (Zalo)</div>"
+            // + "<div>ĐT Văn phòng: 0292.3872275 - DĐ: 0975 185 994 (Zalo)</div>"
             // + "</div>";
             // htmlContent += "</body></html>";
 
@@ -402,8 +404,8 @@ public class EmailService {
             e.printStackTrace();
         }
     }
-    public void notificationBills(Email email,Student student, String roomType, Integer numberRoom,Integer electricityConsumed,Bill bill){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+    public void notificationBills(Email email,Student student, String roomType, Integer numberRoom,Integer electricityConsumed,Integer waterConsumed,Bill bill){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -498,7 +500,7 @@ public class EmailService {
                     "          </div>\r\n" + //
                     "          <div>\r\n" + //
                     "            <span style=\"font-weight: bold\">Tiền nước</span> = Lượng nước tiêu\r\n" + //
-                    "            thụ x đơn giá nước/khối = "+"đ\r\n" + //
+                    "            thụ x đơn giá nước/khối = "+waterConsumed*5973+"đ\r\n" + //
                     "          </div>\r\n" + //
                     "          <div>\r\n" + //
                     "            <span style=\"font-weight: bold\">Tổng tiền</span> = Tiền điện + Tiền\r\n" + //
