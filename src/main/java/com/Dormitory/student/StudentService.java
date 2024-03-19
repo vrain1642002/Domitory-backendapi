@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.Dormitory.contract.ContractResponseDTO;
 import com.Dormitory.exception.NotFoundException;
 
 @Service

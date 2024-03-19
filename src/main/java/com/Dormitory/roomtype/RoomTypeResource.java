@@ -24,7 +24,7 @@ import com.Dormitory.message.SuccessMessage;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401","https://dormiotry-frontend-student-production.up.railway.app","https://dormitory-frontend-admin-production.up.railway.app/"})
 @RequestMapping("api/v1/roomtype")
 public class RoomTypeResource {
     
@@ -40,11 +40,12 @@ public class RoomTypeResource {
         @RequestParam("name") String name,
         @RequestParam("maxQuantity") Integer maxQuantity,
         @RequestParam("price") Float price,
-        @RequestParam("isAirConditioned") Boolean isAirConditioned
+        @RequestParam("isAirConditioned") Boolean isAirConditioned,
+        @RequestParam("isCooked") Boolean isCooked
     ) throws IOException {
         // Call the service method to add RoomType with images
         RoomType savedRoomType = roomTypeService
-        .addRoomTypeWithImages(name,maxQuantity, price, isAirConditioned, imageFiles);
+        .addRoomTypeWithImages(name,maxQuantity, price, isAirConditioned, isCooked, imageFiles);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new SuccessMessage("Phòng đã được thêm vào thành công", HttpStatus.CREATED.value()));
@@ -82,14 +83,24 @@ public class RoomTypeResource {
         List<RoomTypeResponseDTO> roomTypesResponseDTOs = roomTypeService.getAllRoomTypeByMaxQuantity(maxQuantity);
         return ResponseEntity.status(HttpStatus.OK).body(roomTypesResponseDTOs);
     }   
-
+    @GetMapping("is-cooked/{isCooked}")
+    public ResponseEntity<List<RoomTypeResponseDTO>> getAllRoomTypeByIsCooked(@PathVariable(name = "isCooked") Boolean isCooked  ) {
+        List<RoomTypeResponseDTO> roomTypesResponseDTOs = roomTypeService.getAllRoomTypeByIsCooked(isCooked);
+        return ResponseEntity.status(HttpStatus.OK).body(roomTypesResponseDTOs);
+    }
     @GetMapping("air-conditioned/{airConditioned}")
     public ResponseEntity<List<RoomTypeResponseDTO>> getAllRoomTypeByIsAirConditioned(@PathVariable(name = "airConditioned") Boolean isAirConditioned  ) {
         List<RoomTypeResponseDTO> roomTypesResponseDTOs = roomTypeService.getAllRoomTypeByIsAirConditioned(isAirConditioned);
         return ResponseEntity.status(HttpStatus.OK).body(roomTypesResponseDTOs);
     }
     
-
+    @GetMapping("max-quantity/{maxQuantity}/is-cooked/{isCooked}")
+    public ResponseEntity<List<RoomTypeResponseDTO>> getAllRoomTypeByMaxQuantityAndIsCooked(
+        @PathVariable(name = "maxQuantity") Integer maxQuantity,
+        @PathVariable(name = "isCooked") Boolean isCooked ) {
+        List<RoomTypeResponseDTO> roomTypesResponseDTOs = roomTypeService.getAllRoomTypeByMaxQuantityAndIsCooked(maxQuantity,isCooked);
+        return ResponseEntity.status(HttpStatus.OK).body(roomTypesResponseDTOs);
+    }
 
     @GetMapping("max-quantity/{maxQuantity}/air-conditioned/{airConditioned}")
     public ResponseEntity<List<RoomTypeResponseDTO>> getAllRoomTypeByMaxQuantityAndIsAirConditioned(
@@ -99,6 +110,21 @@ public class RoomTypeResource {
         return ResponseEntity.status(HttpStatus.OK).body(roomTypesResponseDTOs);
     }
 
+    @GetMapping("is-cooked/{isCooked}/air-conditioned/{airConditioned}")
+    public ResponseEntity<List<RoomTypeResponseDTO>> getAllRoomTypeByIsCookedAndIsAirConditioned(
+        @PathVariable(name = "isCooked") Boolean isCooked,
+        @PathVariable(name = "airConditioned") Boolean isAirConditioned
 
-
+      ) {
+        List<RoomTypeResponseDTO> roomTypesResponseDTOs = roomTypeService.getAllRoomTypeByIsCookedAndIsAirConditioned(isCooked,isAirConditioned);
+        return ResponseEntity.status(HttpStatus.OK).body(roomTypesResponseDTOs);
+    }
+    @GetMapping("max-quantity/{maxQuantity}/is-cooked/{isCooked}/air-conditioned/{airConditioned}")
+    public ResponseEntity<List<RoomTypeResponseDTO>> getAllRoomTypeByMaxQuantityAndIsCookedAndIsAirConditioned(
+        @PathVariable(name = "maxQuantity") Integer maxQuantity,
+        @PathVariable(name = "isCooked") Boolean isCooked,
+        @PathVariable(name = "airConditioned") Boolean isAirConditioned ) {
+        List<RoomTypeResponseDTO> roomTypesResponseDTOs = roomTypeService.getAllRoomTypeByMaxQuantityAndIsCookedAndIsAirConditioned(maxQuantity,isCooked,isAirConditioned);
+        return ResponseEntity.status(HttpStatus.OK).body(roomTypesResponseDTOs);
+    }
 }

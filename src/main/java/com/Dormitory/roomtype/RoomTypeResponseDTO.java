@@ -18,6 +18,7 @@ public class RoomTypeResponseDTO {
     private Integer maxQuantity;
     private Float price;
     private Boolean isAirConditioned; // Có máy lạnh không
+    private Boolean isCooked; // Có nấu ăn không
     private Boolean enable;
     private LocalDate createdDate;
     private LocalDate updatedDate ;
