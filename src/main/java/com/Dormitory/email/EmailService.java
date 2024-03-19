@@ -340,8 +340,8 @@ public class EmailService {
                     "              ><span style=\"font-size: 13.3333px\"\r\n" + //
                     "                ><b\r\n" + //
                     "                  >SV không ở tiếp có thể báo ngày trả chỗ vào email:&nbsp;<i\r\n" + //
-                    "                    ><a href=\"mailto:lvut@ctu.edu.vn\" target=\"_blank\"\r\n" + //
-                    "                      ><span class=\"il\">lvut</span>@ctu.edu.vn</a\r\n" + //
+                    "                    ><a href=\"mailto:nhqviet.dth.tuyan@gmail.com\" target=\"_blank\"\r\n" + //
+                    "                      ><span class=\"il\">nhqviet.dth.tuy</span>@gmail.com</a\r\n" + //
                     "                    ></i\r\n" + //
                     "                  ></b\r\n" + //
                     "                ></span\r\n" + //
