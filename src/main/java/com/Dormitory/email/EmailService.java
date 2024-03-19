@@ -341,7 +341,7 @@ public class EmailService {
                     "                ><b\r\n" + //
                     "                  >SV không ở tiếp có thể báo ngày trả chỗ vào email:&nbsp;<i\r\n" + //
                     "                    ><a href=\"mailto:nhqviet.dth.tuyan@gmail.com\" target=\"_blank\"\r\n" + //
-                    "                      ><span class=\"il\">nhqviet.dth.tuy</span>@gmail.com</a\r\n" + //
+                    "                      ><span class=\"il\">nhqviet.dth.tuyan</span>@gmail.com</a\r\n" + //
                     "                    ></i\r\n" + //
                     "                  ></b\r\n" + //
                     "                ></span\r\n" + //
