@@ -3,7 +3,7 @@ package com.Dormitory.student;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.Dormitory.attendancelist.Attendancelist;
+import com.Dormitory.attendancelist.AttendanceList;
 import com.Dormitory.roomtype.RoomType;
 import com.Dormitory.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,7 +51,9 @@ public class Student {
     //1 -> ra trường rồi
     //2 -> danh sách đen
     //3 -> danh sách đen tự tạow
-    @ManyToOne // Một Room thuộc về một RoomType
-    @JoinColumn(name = "attendance_list_id") // Đánh dấu khóa ngoại trỏ đến RoomType
-    private Attendancelist al;
+
+    @JsonIgnore // Phớt lờ không cho nó xuất
+    @ManyToOne()
+    @JoinColumn(name = "attendance_id")
+    private AttendanceList attendanceList;
 }

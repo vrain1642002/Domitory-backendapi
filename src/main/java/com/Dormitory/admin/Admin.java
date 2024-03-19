@@ -51,6 +51,7 @@ public class Admin {
 
     @NotNull(message = "Gender cannot be null")
     private Integer gender;
+
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
