@@ -7,14 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Dormitory.exception.AlreadyExistsException;
 import com.Dormitory.exception.InvalidValueException;
 import com.Dormitory.exception.NotFoundException;
-import com.Dormitory.image.Image;
 import com.Dormitory.image.ImageService;
 
 import jakarta.transaction.Transactional;
@@ -35,7 +33,7 @@ public class RoomTypeService {
     }
      @Transactional
     public RoomType addRoomTypeWithImages(String name, Integer maxQuantity, Float price,
-                                         Boolean isAirConditioned, Boolean isCooked, List<MultipartFile> imageFiles) throws IOException {
+                                          Boolean isAirConditioned, List<MultipartFile> imageFiles) throws IOException {
 
         // Check if the room type with the given name already exists
         if (roomTypeRepository.findByName(name).isPresent()) {
@@ -53,7 +51,6 @@ public class RoomTypeService {
                 .maxQuantity(maxQuantity)
                 .price(price)
                 .isAirConditioned(isAirConditioned)
-                .isCooked(isCooked)
                 .enable(true)
                 .createdDate(LocalDate.now())
                 .updatedDate(null)
@@ -105,35 +102,20 @@ public class RoomTypeService {
         return convertListRoomTypeToListResponseDTO(roomTypes);
     }
 
-    public List<RoomTypeResponseDTO> getAllRoomTypeByIsCooked(Boolean isCooked) {
-        List<RoomType> roomTypes = roomTypeRepository.findByIsCooked(isCooked);
-        return convertListRoomTypeToListResponseDTO(roomTypes);
-    }
 
     public List<RoomTypeResponseDTO> getAllRoomTypeByIsAirConditioned(Boolean isAirConditioned) {
         List<RoomType> roomTypes = roomTypeRepository.findByIsAirConditioned(isAirConditioned);
         return convertListRoomTypeToListResponseDTO(roomTypes);
     }
 
-    public List<RoomTypeResponseDTO> getAllRoomTypeByMaxQuantityAndIsCooked(Integer maxQuantity,Boolean isCooked) {
-        List<RoomType> roomTypes = roomTypeRepository.findByMaxQuantityAndIsCooked(maxQuantity, isCooked);
-        return convertListRoomTypeToListResponseDTO(roomTypes);
-    }
 
     public List<RoomTypeResponseDTO> getAllRoomTypeByMaxQuantityAndIsAirConditioned(Integer maxQuantity,Boolean isAirConditioned) {
         List<RoomType> roomTypes = roomTypeRepository.findByMaxQuantityAndIsAirConditioned(maxQuantity, isAirConditioned);
         return convertListRoomTypeToListResponseDTO(roomTypes);
     }
 
-    public List<RoomTypeResponseDTO> getAllRoomTypeByIsCookedAndIsAirConditioned(Boolean isCooked,Boolean isAirConditioned) {
-        List<RoomType> roomTypes = roomTypeRepository.findByIsCookedAndIsAirConditioned(isCooked, isAirConditioned);
-        return convertListRoomTypeToListResponseDTO(roomTypes);
-    }
 
-    public List<RoomTypeResponseDTO> getAllRoomTypeByMaxQuantityAndIsCookedAndIsAirConditioned(Integer maxQuantity,Boolean isCooked,Boolean isAirConditioned) {
-        List<RoomType> roomTypes = roomTypeRepository.findByMaxQuantityAndIsCookedAndIsAirConditioned(maxQuantity, isCooked, isAirConditioned);
-        return convertListRoomTypeToListResponseDTO(roomTypes);
-    }
+
 
     private List<RoomTypeResponseDTO> convertListRoomTypeToListResponseDTO(List<RoomType> roomTypes) {
         List<RoomTypeResponseDTO> responses = new ArrayList<>();
@@ -145,7 +127,6 @@ public class RoomTypeService {
             response.setImages(roomType.getImages());
             response.setPrice(roomType.getPrice());
             response.setIsAirConditioned(roomType.getIsAirConditioned());
-            response.setIsCooked(roomType.getIsCooked());
             response.setEnable(roomType.getEnable());
             response.setCreatedDate(roomType.getCreatedDate());
             response.setUpdatedDate(roomType.getUpdatedDate());
@@ -162,7 +143,6 @@ public class RoomTypeService {
             response.setImages(roomType.getImages());
             response.setPrice(roomType.getPrice());
             response.setIsAirConditioned(roomType.getIsAirConditioned());
-            response.setIsCooked(roomType.getIsCooked());
             response.setEnable(roomType.getEnable());
             response.setCreatedDate(roomType.getCreatedDate());
             response.setUpdatedDate(roomType.getUpdatedDate());

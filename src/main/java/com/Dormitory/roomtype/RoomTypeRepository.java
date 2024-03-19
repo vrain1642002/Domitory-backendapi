@@ -19,27 +19,16 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
     // Có máy lạnh ? Có cho nấu ăn ? số lượng ? và giá 
 
     List<RoomType> findByMaxQuantity(Integer maxQuantity);
-    List<RoomType> findByIsCooked(Boolean isCooked);
     List<RoomType> findByIsAirConditioned(Boolean isAirConditioned);
 
-    List<RoomType> findByMaxQuantityAndIsCooked(
-        Integer maxQuantity,
-        Boolean isCooked
-    );
+
     List<RoomType> findByMaxQuantityAndIsAirConditioned(
         Integer maxQuantity,
         Boolean isAirConditioned
     );
-    List<RoomType> findByIsCookedAndIsAirConditioned(
-        Boolean isCooked, 
-        Boolean isAirConditioned
-    );
 
-    List<RoomType> findByMaxQuantityAndIsCookedAndIsAirConditioned(
-        Integer maxQuantity,
-        Boolean isCooked, 
-        Boolean isAirConditioned
-    );
+
+
     Optional<RoomType> findByRooms_Id(Integer id);
 }
 

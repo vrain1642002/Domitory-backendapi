@@ -51,8 +51,6 @@ public class RoomType {
     @NotNull(message = "Phòng này có máy lạnh không ?")
     private Boolean isAirConditioned; // Có máy lạnh không
 
-    @NotNull(message = "Phòng này cho phép nấu ăn không ?")
-    private Boolean isCooked; // Có nấu ăn không
 
     private Boolean enable = true;
 
@@ -64,13 +62,12 @@ public class RoomType {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomType") // Một RoomType có nhiều Room, ánh xạ đến trường roomType trong lớp Room
     private List<Room> rooms;
     
-    public RoomType(String name, Integer maxQuantity, Float price, Boolean isAirConditioned,
-            Boolean isCooked) {
+    public RoomType(String name, Integer maxQuantity, Float price, Boolean isAirConditioned
+            ) {
         this.name = name;
         this.maxQuantity = maxQuantity;
         this.price = price;
         this.isAirConditioned = isAirConditioned;
-        this.isCooked = isCooked;
     }
 
 }
