@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 public class BillRequestDTO {
     @NotNull(message = "Chỉ số điện cuối không được bỏ trống")
     private Integer finalElectricity;
-    @NotNull(message = "Chỉ số nước cuối không được bỏ trống")
-    private Integer finalWater;
+
     @NotNull(message = "ID phòng không được bỏ trống")
     private Integer roomId;
 }

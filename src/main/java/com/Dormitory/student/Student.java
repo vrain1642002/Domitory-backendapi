@@ -41,6 +41,9 @@ public class Student {
     private Integer gender;//1 -> boy, 0-> girl
     private String classroom;
 
+    //doi tuong uu tien
+    private String prioritize;
+
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -51,8 +54,5 @@ public class Student {
     //2 -> danh sách đen
     //3 -> danh sách đen tự tạow
 
-    @JsonIgnore // Phớt lờ không cho nó xuất
-    @ManyToOne()
-    @JoinColumn(name = "attendance_list_id")
-    private AttendanceList attendanceList;
+
 }

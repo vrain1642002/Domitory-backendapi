@@ -54,5 +54,9 @@ public class Contract {
     private String roomType;
     @NotNull(message = "numberRoom cannot be null")
     private Integer numberRoom;
+
+    //0 la vua tao 1, 1 la dong y,2 la khong dong y,3 la da thanh toan
     private Integer status = 0;
+    private String prioritize;
+
 }

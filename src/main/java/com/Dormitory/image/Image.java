@@ -2,7 +2,9 @@ package com.Dormitory.image;
 
 import java.security.Provider.Service;
 
+import com.Dormitory.admin.Admin;
 import com.Dormitory.roomtype.RoomType;
+import com.Dormitory.student.Student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -37,8 +39,11 @@ public class Image {
     private byte[] imageData;
 
     @JsonIgnore // Phớt lờ không cho nó xuất
-    @ManyToOne()
+    @ManyToOne(optional = true)
     @JoinColumn(name = "roomtype_id")
     private RoomType roomType;
 
+    @ManyToOne(optional = true) //Nó có thể null
+    @JoinColumn(name = "student_id")
+    private Student student;
 }

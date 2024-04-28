@@ -30,6 +30,12 @@ public class ImageResource {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(uploadImage);
 	}
+	@PostMapping("/student/{numberStudent}")
+	public ResponseEntity<?> uploadImageSV(@RequestParam("image")MultipartFile file, @PathVariable("numberStudent") String numberStudent) throws IOException {
+		String uploadImage = service.uploadImageSV(file,numberStudent);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(uploadImage);
+	}
 
 	@GetMapping("/{fileName}")
 	public ResponseEntity<?> downloadImage(@PathVariable String fileName){

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoomFeedbackRepository extends JpaRepository<RoomFeedback, Integer> {
-    Optional<List<RoomFeedback>> findByStudentId(Integer studentId);
+public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
+    Optional<List<Feedback>> findByStudentId(Integer studentId);
 }

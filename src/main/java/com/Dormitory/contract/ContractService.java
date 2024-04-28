@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.Dormitory.feedback.FeedbackRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -62,12 +63,13 @@ public class ContractService {
         String schoolYear,
         String major,
         String numberStudent,
+        Integer status,
         Integer gender,
         Pageable pageable
     ) { 
         // Sort sort = Sort.by(Sort.Order.asc("roomType"), Sort.Order.asc("numberRoom"));
         
-        Page<Contract> contractsPage = contractRepository.findByFilter(sesmester, schoolYear, major, numberStudent, gender, pageable);
+        Page<Contract> contractsPage = contractRepository.findByFilter(sesmester, schoolYear, major, numberStudent,status,gender, pageable);
         List<Contract> contracts = new ArrayList<>(contractsPage.getContent());
         List<ContractResponseDTO> contractDTOs = convertToDTOs(contracts);
         
@@ -89,6 +91,8 @@ public class ContractService {
             contractResponseDTO.setClassroom(c.getStudent().getClassroom());
             contractResponseDTO.setEmail(c.getStudent().getEmail());
             contractResponseDTO.setName(c.getStudent().getName());
+            contractResponseDTO.setPrioritize(c.getStudent().getPrioritize());
+
             contractResponseDTO.setMajor(c.getStudent().getMajor());
             contractResponseDTO.setPhone(c.getStudent().getPhone());
             contractResponseDTO.setGender(c.getStudent().getGender());
@@ -115,7 +119,7 @@ public class ContractService {
         
         List<Student> students = new ArrayList<>();
         for(Contract c : contracts) {
-            if(c.getStatus() == 1 || c.getStatus() ==0 || c.getStatus() ==3) {
+            if(c.getStatus() == 1 || c.getStatus() ==3) {
                 Student s = studentRepository.findById(c.getStudent().getId()).orElseThrow(() -> new NotFoundException("Không tồn tại sinh viên với id: "+c.getStudent().getId()));
                 students.add(s);
             }
@@ -145,7 +149,7 @@ public class ContractService {
         //Phần xử lý tính tổng giá nguyên học kì 
         LocalDate startDate = sesmester.getStartDate();
         LocalDate endDate = sesmester.getEndDate();
-        int holidayWeek = sesmester.getHolidayWeek();
+
         // Tính số tháng giữa a và b
 
         Period period = Period.between(startDate, endDate);
@@ -153,7 +157,7 @@ public class ContractService {
         // Tính số tuần giữa startDate và endDate
         int weeks = (int)startDate.until(endDate, java.time.temporal.ChronoUnit.WEEKS);
         Float weeklyPrice = roomType.getPrice()/4;
-        contract.setTotalPrice(weeklyPrice*weeks - holidayWeek*weeklyPrice);
+        contract.setTotalPrice(weeklyPrice*weeks );
         //Tăng số lượng phòng
         // Kiểm tra xem roomType có tồn tại và có còn phòng trống không
         Room room = roomRepository.findByNumberRoomAndRoomType_Id(contract.getNumberRoom(),roomType.getId())
@@ -162,15 +166,54 @@ public class ContractService {
             throw new InvalidValueException("Vui lòng chọn phòng phù hợp với giới tính của bạn");
         }
         if(room.getCurrentQuantity() < roomType.getMaxQuantity()) {
-            room.setCurrentQuantity(room.getCurrentQuantity()+1);
+            room.setCurrentQuantity(room.getCurrentQuantity());
         }else {
             throw new InvalidValueException("Phòng này đã đủ số lượng rồi");
         }
-        Email email = new Email(student.getEmail(), "THÔNG BÁO ĐẶT PHÒNG THÀNH CÔNG VÀ CÁC QUY ĐỊNH VỀ THỜI GIAN",null);
-        emailService.sendEmail(email, student,roomType,room,sesmester,contract);
+
         // Lưu hợp đồng vào CSDL
         contractRepository.save(contract);
     }
-    
-    
+
+
+
+
+    public void updateStatus(Integer id, ContractResponseDTO c) {
+        Contract contract = contractRepository.findById(id).orElseThrow(() -> new NotFoundException("Không tồn tại hợp đồng với id: " + id));
+
+        Student student = studentRepository.findById(contract.getStudent().getId()).orElseThrow(() -> new NotFoundException("Không tồn tại sinh viên với id: " + contract.getStudent().getId()));
+        sesmesterRepository.findById(contract.getSesmester().getId()).orElseThrow(() -> new NotFoundException("Không tồn tại học kỳ với id: " + contract.getSesmester().getId()));
+        Sesmester sesmester = sesmesterRepository.findByIdAndStatus(contract.getSesmester().getId(), true).orElseThrow(() -> new SesmesterDateValidationException("Học kỳ đang đóng"));
+        RoomType roomType = roomTypeRepository.findByName(contract.getRoomType()).orElseThrow(() -> new NotFoundException("Không tồn tại tên loại phòng là: " + contract.getRoomType()));
+
+        Room room = roomRepository.findByNumberRoomAndRoomType_Id(contract.getNumberRoom(), roomType.getId())
+                .orElseThrow(() -> new NotFoundException("Không tồn tại phòng " + contract.getNumberRoom() + " thuộc loại phòng" + roomType.getName()));
+        if (room.getGender() != student.getGender()) {
+            throw new InvalidValueException("Vui lòng chọn phòng phù hợp với giới tính của bạn");
+        }
+//        if (contract.getStatus()==3)
+//        {
+//            throw new InvalidValueException("Không thể cập nhật hợp đồng đã thanh toán");
+//
+//        }
+        if (c.getStatus()==1 && contract.getStatus()==0)
+        {
+            Email email = new Email(student.getEmail(), "THÔNG BÁO KẾT QUẢ ĐĂNG KÝ KTX THÀNH CÔNG VÀ CÁC QUY ĐỊNH VỀ THỜI GIAN",null);
+            emailService.sendEmail(email, student,roomType,room,sesmester,contract);
+            if(room.getCurrentQuantity() < roomType.getMaxQuantity()) {
+                room.setCurrentQuantity(room.getCurrentQuantity()+1);
+            }else {
+                throw new InvalidValueException("Phòng này đã đủ số lượng rồi");
+            }
+        }
+        else
+        if (c.getStatus()==2)
+        {
+            Email email = new Email(student.getEmail(), "THÔNG BÁO KẾT QUẢ ĐĂNG KÝ KTX KHÔNG ĐƯỢC CHẤP THUẬN",null);
+            emailService.sendEmail1(email, student);
+        }
+        contract.setStatus(c.getStatus());
+
+            contractRepository.save((contract));
+    }
 }

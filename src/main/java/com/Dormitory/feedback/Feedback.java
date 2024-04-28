@@ -3,8 +3,6 @@ package com.Dormitory.feedback;
 import java.time.LocalDate;
 
 import com.Dormitory.admin.Admin;
-import com.Dormitory.room.Room;
-import com.Dormitory.sesmester.Sesmester;
 import com.Dormitory.student.Student;
 
 import jakarta.persistence.Entity;
@@ -22,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-public class RoomFeedback {
+public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +30,15 @@ public class RoomFeedback {
     @ManyToOne
     private Student student; //Sinh viên nào gửi
 
+    //loai 1 la csvc,loai 2 la ve sinh,trat tu
 
-    private String roomType;
+    private Integer type;
+    private String request;
+    private String reponse;
+
     private Integer numberRoom;
     private LocalDate sendDate = LocalDate.now();
+    //status 0 vua tao,1 la dang xu ly,2 la da xu ly
     private Integer status = 0;
     @JoinColumn(name = "admin_id") // Thay đổi tên cột trong cơ sở dữ liệu nếu cần
     @ManyToOne(optional = true) // optional được đặt thành true để cho phép null

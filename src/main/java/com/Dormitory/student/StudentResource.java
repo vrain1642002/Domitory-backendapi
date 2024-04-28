@@ -39,6 +39,7 @@ public class StudentResource {
             student.get().getBirthday(),
             student.get().getGender(),
             student.get().getClassroom(),
+            student.get().getPrioritize(),
             student.get().getStatus()) ;
             return ResponseEntity.status(HttpStatus.OK).body(studentResponseDTO);
         }else {

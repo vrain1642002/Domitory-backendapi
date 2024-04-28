@@ -55,13 +55,13 @@ public class VNPayResource {
                 // Thực hiện các xử lý cần thiết, ví dụ: cập nhật CSDL
                 Contract contract = contractRepository.findById(Integer.parseInt(queryParams.get("contractId")))
                 .orElseThrow(() -> new NotFoundException("Không tồn tại hợp đồng này của sinh viên"));
-            contract.setStatus(1);
+            contract.setStatus(3);
             contractRepository.save(contract);
-            response.sendRedirect("https://dormiotry-frontend-student-production.up.railway.app/info-student");
+            response.sendRedirect("http://localhost:4200/info-student");
             } else {
                 // Giao dịch thất bại
                 // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
-                response.sendRedirect("https://dormiotry-frontend-student-production.up.railway.app/payment-failed");
+                response.sendRedirect("http://localhost:4200/payment-failed");
                 
             }
         }
@@ -74,11 +74,11 @@ public class VNPayResource {
                 .orElseThrow(() -> new NotFoundException("Không tồn tại hóa đơn điện nước này"));
             bill.setStatus(true);
             billRepository.save(bill);
-            response.sendRedirect("https://dormiotry-frontend-student-production.up.railway.app/info-student");
+            response.sendRedirect("http://localhost:4200/info-student");
             } else {
                 // Giao dịch thất bại
                 // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
-                response.sendRedirect("https://dormiotry-frontend-student-production.up.railway.app/payment-failed");
+                response.sendRedirect("http://localhost:4200/payment-failed");
                 
             }
         }

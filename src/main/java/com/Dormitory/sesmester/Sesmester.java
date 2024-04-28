@@ -37,5 +37,4 @@ public class Sesmester {
     @NotNull(message = "Không bỏ ngày kết thúc đăng ký")
     private LocalDate registrationEndDate;
     private Boolean status = false; //Coi học kỳ đã được mở chưa
-    private Integer holidayWeek = 0;
 }

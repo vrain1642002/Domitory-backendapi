@@ -20,20 +20,25 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
     List<Contract> findByStatus(Integer status);
     List<Contract> findAll(Sort sort);
     Page<Contract> findAll(Pageable pageable);
+
+
     @Query("SELECT c FROM Contract c " +
-           "WHERE (:sesmester IS NULL OR c.sesmester.sesmester = :sesmester) " +
-           "AND (:schoolYear IS NULL OR c.sesmester.schoolYear = :schoolYear) " +
-           "AND (:major IS NULL OR c.student.major = :major) " +
-           "AND (:numberStudent IS NULL OR c.student.numberStudent LIKE :numberStudent%) " +
-           "AND (:gender IS NULL OR c.student.gender = :gender) " +
-           "AND c.status <> 2")
+            "WHERE (:sesmester IS NULL OR c.sesmester.sesmester = :sesmester) " +
+            "AND (:schoolYear IS NULL OR c.sesmester.schoolYear = :schoolYear) " +
+            "AND (:major IS NULL OR c.student.major = :major) " +
+            "AND (:numberStudent IS NULL OR c.student.numberStudent LIKE :numberStudent%) " +
+            "AND (:gender IS NULL OR c.student.gender = :gender) " +
+            "AND (:status IS NULL OR c.status = :status) ")
+
     Page<Contract> findByFilter(
             @Param("sesmester") Integer sesmester,
             @Param("schoolYear") String schoolYear,
             @Param("major") String major,
             @Param("numberStudent") String numberStudent,
+            @Param("status") Integer status,
             @Param("gender") Integer gender,
             Pageable pageable);
+
     @Query("SELECT c FROM Contract c " +
            "WHERE ((:studentName IS NULL OR c.student.name LIKE %:studentName%) " +
            "AND (:numberStudent IS NULL OR c.student.numberStudent LIKE :numberStudent%) )" +

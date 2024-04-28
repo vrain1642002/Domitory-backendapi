@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FeedbackResponseDTO {
     private Integer id;
-    private String content;
+    private String request;
+    private  String reponse;
     private LocalDate sendDate;
-    private Integer quantity;
     private Integer status;
+    private Integer type;
+
     private String noteFromAdmin;
 }

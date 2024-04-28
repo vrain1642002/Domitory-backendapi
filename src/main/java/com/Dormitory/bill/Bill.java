@@ -31,8 +31,8 @@ public class Bill {
     private LocalDate createdDate = LocalDate.now();
     private Integer initialElectricity ;
     private Integer finalElectricity;
-    private Integer initialWater;
-    private Integer finalWater;
+//    private Integer initialWater;
+//    private Integer finalWater;
     private Float price;
     private String roomType;
     private Integer numberRoom;

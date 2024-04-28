@@ -14,7 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FeedbackRequestDTO {
     private Student student;
-    private String roomType;
+    private String request;
+    private String reponse;
+    private Integer type;
+
     private Integer numberRoom;
     private LocalDate editDate;
     private Integer adminId;

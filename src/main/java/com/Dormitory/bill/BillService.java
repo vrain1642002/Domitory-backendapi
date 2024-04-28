@@ -64,14 +64,15 @@ public class BillService {
         .orElseThrow(() -> new NotFoundException("Không tồn tại hóa đơn với id: "+id));
         b.setAdmin2(bill.getAdmin2());
         b.setFinalElectricity(bill.getFinalElectricity());
-        b.setFinalWater(bill.getFinalWater());
+//        b.setFinalWater(bill.getFinalWater());
         Float electricityRate = 1728f; // Giá điện theo kw
         Float waterRate = 5973f; // Giá nước theo khối nước
         Integer electricityConsumed = bill.getFinalElectricity() - bill.getInitialElectricity();
-        Integer waterConsumed = bill.getFinalWater() - bill.getInitialWater();
+//        Integer waterConsumed = bill.getFinalWater() - bill.getInitialWater();
         Float electricityCost = electricityConsumed * electricityRate;
-        Float waterCost = waterConsumed * waterRate;
-        Float totalCost = electricityCost + waterCost;
+//        Float waterCost = waterConsumed * waterRate;
+        Float totalCost = electricityCost ;
+        b.setStatus(bill.getStatus());
         b.setPrice(totalCost);
         billRepository.save(b);
     }
@@ -80,7 +81,7 @@ public class BillService {
         .orElseThrow(() -> new NotFoundException("Không tồn tại admin này"));
         
         // Kiểm tra chỉ số chèn vào có lớn hơn 0
-        if (requestDTO.getFinalElectricity() <= 0 || requestDTO.getFinalWater() <= 0) {
+        if (requestDTO.getFinalElectricity() <= 0 ) {
             throw new InvalidValueException("Chỉ số điện và nước phải lớn hơn 0");
         }
         // Tìm số phòng và loại phòng từ roomId
@@ -93,15 +94,12 @@ public class BillService {
         Optional<Bill> lastBill = billRepository.findFirstByRoomTypeAndNumberRoomOrderByCreatedDateDesc(roomType,room.getNumberRoom());
         if (lastBill.isPresent()) {
             bill.setInitialElectricity(lastBill.get().getFinalElectricity());
-            bill.setInitialWater(lastBill.get().getFinalWater());
         }else {
              bill.setInitialElectricity(0);
-            bill.setInitialWater(0);
         }
         bill.setAdmin(admin);
         bill.setFinalElectricity(requestDTO.getFinalElectricity());
-        bill.setFinalWater(requestDTO.getFinalWater());
-        
+
         // Kiểm tra xem đã có hóa đơn cho phòng đó trong tháng hiện tại hay chưa
         LocalDate currentDate = LocalDate.now();
         Optional<Bill> latestBills = billRepository.findFirstByRoomTypeAndNumberRoomOrderByCreatedDateDesc(roomType, numberRoom);
@@ -114,9 +112,7 @@ public class BillService {
         if(bill.getFinalElectricity() <= bill.getInitialElectricity()) {
             throw new InvalidValueException("Chỉ số điện cuối phải lớn hơn chỉ số điện đầu");
         }
-        if(bill.getFinalWater() <= bill.getInitialWater()) {
-            throw new InvalidValueException("Chỉ số điện cuối phải lớn hơn chỉ số điện đầu");
-        }
+
         bill.setRoomType(roomType);
         bill.setNumberRoom(numberRoom);
         bill.setStatus(false);
@@ -126,10 +122,8 @@ public class BillService {
         Float electricityRate = 1728f; // Giá điện theo kw
         Float waterRate = 5973f; // Giá nước theo khối nước
         Integer electricityConsumed = bill.getFinalElectricity() - bill.getInitialElectricity();
-        Integer waterConsumed = bill.getFinalWater() - bill.getInitialWater();
         Float electricityCost = electricityConsumed * electricityRate;
-        Float waterCost = waterConsumed * waterRate;
-        Float totalCost = electricityCost + waterCost;
+        Float totalCost = electricityCost ;
         bill.setPrice(totalCost);
         
         Sesmester sesmester = sesmesterRepository.findSesmesterByCurrentDateBetweenStartDateAndEndDate(currentDate)
@@ -139,7 +133,7 @@ public class BillService {
             for(Contract c: contracts) {
                 Student student = studentRepository.findById(c.getStudent().getId()).orElseThrow(() -> new NotFoundException("Không tồn tại sinh viên với id: "+c.getStudent().getId()));
                 Email email = new Email(student.getEmail(), "THÔNG BÁO TIỀN ĐIỆN NƯỚC", null);
-                emailService.notificationBills(email, student, roomType, numberRoom, electricityConsumed, waterConsumed, bill);
+                emailService.notificationBills(email, student, roomType, numberRoom, electricityConsumed, bill);
             }
         }
         billRepository.save(bill);

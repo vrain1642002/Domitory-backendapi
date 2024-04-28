@@ -56,7 +56,7 @@ public class UserService {
         }
 
         
-        Role role = roleRepository.findByName("STUDENT");
+        Role role = roleRepository.findByName("LEAD");
 
         // Set role
         user.setRoles(Collections.singletonList(role));

@@ -41,8 +41,8 @@ public class RoomTypeService {
         if (roomTypeRepository.findByName(name).isPresent()) {
             throw new AlreadyExistsException("Loại phòng " + name + " đã tồn tại");
         }
-        if(maxQuantity <=1 || maxQuantity >8) {
-            throw new InvalidValueException("Vui lòng nhập số lượng từ 2 đến 8");
+        if(maxQuantity <=1 || maxQuantity >24) {
+            throw new InvalidValueException("Vui lòng nhập số lượng từ 2 đến 24");
         }
         if(price<=0 || price %1000!=0) {
             throw new InvalidValueException("Vui lòng nhập giá phòng lớn hơn 0 và chia hết cho 1000");

@@ -43,9 +43,7 @@ public class SesmesterService {
         if(sesmester.getRegistrationEndDate().isAfter(sesmester.getStartDate()) || sesmester.getRegistrationEndDate().isEqual(sesmester.getStartDate())) {
             throw new InvalidValueException("Ngày kết thúc đăng ký phải nhỏ hơn ngày bắt đầu học kỳ");
         }
-        if(sesmester.getHolidayWeek() <0 || sesmester.getHolidayWeek() >4) {
-            throw new InvalidValueException("Số tuần nghĩ từ 0 đến 4");
-        }
+
         for(Sesmester s: sesmesterRepository.findAll()) {
             if(sesmester.getStartDate().isBefore(s.getEndDate()) || sesmester.getStartDate().isEqual(s.getEndDate())) {
                 throw new InvalidValueException("Kiểm tra kỹ có sự trùng lặp về ngày");

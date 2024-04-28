@@ -22,7 +22,7 @@ import jakarta.mail.internet.MimeMessage;
 public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
-    public void sendEmailForFeedback(Email email, Student student,String roomType,Integer numberRoom, LocalDate editDate) {
+    public void sendEmailForFeedback(Email email, Student student,Integer numberRoom, LocalDate editDate) {
         //Basic thôi
         // SimpleMailMessage message = new SimpleMailMessage();
         // message.setFrom("khoab1910240@gmail.com");
@@ -43,20 +43,175 @@ public class EmailService {
             "  <head> </head>\n" +
             "  <body>\n" +
             "    <div>\n" +
-            "      Chào em, <b>"+student.getName()+"</b>. Tôi đã nhận được phản hồi về sửa chữa\n" +
-            "      phòng ở phòng của em cụ thể là loại phòng: <b>"+roomType+"</b>, số phòng:\n" +
-            "      <b>"+numberRoom+"</b>. Tôi sẽ cho nhân viên xuống sửa chữa vào ngày\n" +
-            "      <b> "+formatter.format(editDate)+" </b>. Em vui lòng phản hồi qua mail <b>lvut@ctu.edu.vn</b> một ngày khác\n" +
-            "      nếu hôm đó cả phòng bận việc ở ngoài và không có ở phòng\n" +
+            "      Chào em, <b>"+student.getName()+"</b>. Ban quản lý ký túc xá nhận được phản hồi về sửa chữa cơ sở vật chất \n" +
+            "      ktx của em" +
+            "      <b></b>. Ban quản lý sẽ cho nhân viên xuống sửa chữa vào ngày\n" +
+            "      <b> "+formatter.format(editDate)+" </b>." +
             "    </div>\n" +
             "    <div style=\"text-align: center\">\n" +
-            "      Ký túc xá Đại học Cần Thơ<br />\n" +
-            "      Trung tâm phục vụ Sinh viên - Phòng Cộng tác sinh viên<br />\n" +
-            "      Điện thoại Văn phòng: 0292.3872275 - Điện thoại di động: 0975 185 994\n" +
+            "      Ký túc xá Đại học Công nghệ Sài gòn<br />\n" +
+            "      Ban quản lý ký túc xá<br />\n" +
+            "      Điện thoại Văn phòng:  - Điện thoại di động: \n" +
             "      (Zalo)\n" +
             "    </div>\n" +
             "  </body>\n" +
             "</html>";
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendEmailForFeedback1(Email email, Student student,Integer numberRoom, LocalDate editDate) {
+        //Basic thôi
+        // SimpleMailMessage message = new SimpleMailMessage();
+        // message.setFrom("khoab1910240@gmail.com");
+        // message.setTo(toEmail);
+        // message.setText(body);
+        // message.setSubject(subject);
+        // mailSender.send(message);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("Dormitory@gmail.com");
+            helper.setTo(email.getToEmail());
+            helper.setSubject(email.getSubject());
+
+            // Tạo nội dung HTML với các thẻ và CSS tùy chỉnh
+            String htmlContent = "<html lang='en'>\n" +
+                    "  <head> </head>\n" +
+                    "  <body>\n" +
+                    "    <div>\n" +
+                    "      Chào em, <b>"+student.getName()+"</b>. Ban quản lý ktx đã khắc phục,sửa chửa hư hao vật chất do em báo cáo \n" +
+                    "    </div>\n" +
+                    "    <div style=\"text-align: center\">\n" +
+                    "      Ký túc xá Đại học Công nghệ Sài gòn<br />\n" +
+                    "      Ban quản lý ký túc xá<br />\n" +
+                    "      Điện thoại Văn phòng:  - Điện thoại di động: \n" +
+                    "      (Zalo)\n" +
+                    "    </div>\n" +
+                    "  </body>\n" +
+                    "</html>";
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendEmailForFeedback3(Email email, Student student,Integer numberRoom, LocalDate editDate) {
+        //Basic thôi
+        // SimpleMailMessage message = new SimpleMailMessage();
+        // message.setFrom("khoab1910240@gmail.com");
+        // message.setTo(toEmail);
+        // message.setText(body);
+        // message.setSubject(subject);
+        // mailSender.send(message);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("Dormitory@gmail.com");
+            helper.setTo(email.getToEmail());
+            helper.setSubject(email.getSubject());
+
+            // Tạo nội dung HTML với các thẻ và CSS tùy chỉnh
+            String htmlContent = "<html lang='en'>\n" +
+                    "  <head> </head>\n" +
+                    "  <body>\n" +
+                    "    <div>\n" +
+                    "      Chào em, <b>"+student.getName()+"</b>. Ban quản lý ký túc xá nhận được phản hồi về tình hình vệ sinh,trật tự \n" +
+                    "      ktx của em. " +
+                    "      <b></b>. Ban quản lý sẽ xem xét,điều tra và phản hồi vào  ngày\n" +
+                    "      <b> "+formatter.format(editDate)+" </b>." +
+                    "    </div>\n" +
+                    "    <div style=\"text-align: center\">\n" +
+                    "      Ký túc xá Đại học Công nghệ Sài gòn<br />\n" +
+                    "      Ban quản lý ký túc xá<br />\n" +
+                    "      Điện thoại Văn phòng:  - Điện thoại di động: \n" +
+                    "      (Zalo)\n" +
+                    "    </div>\n" +
+                    "  </body>\n" +
+                    "</html>";
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendEmailForFeedback4(Email email, Student student,String Reponse) {
+        //Basic thôi
+        // SimpleMailMessage message = new SimpleMailMessage();
+        // message.setFrom("khoab1910240@gmail.com");
+        // message.setTo(toEmail);
+        // message.setText(body);
+        // message.setSubject(subject);
+        // mailSender.send(message);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("Dormitory@gmail.com");
+            helper.setTo(email.getToEmail());
+            helper.setSubject(email.getSubject());
+
+            // Tạo nội dung HTML với các thẻ và CSS tùy chỉnh
+            String htmlContent = "<html lang='en'>\n" +
+                    "  <head> </head>\n" +
+                    "  <body>\n" +
+                    "    <div>\n" +
+                    "      Chào em, <b>"+student.getName()+"</b>. Sau quá tình xem xét,Ban quản lý ký túc xá xin gửi kết quả phản hồi về tình hình vệ sinh,trật tự \n" +
+                    "      ktx của em. " +
+                    "      <b></b>. Kết quả phản hòi là\n" +
+                    "      <b> "+Reponse+" </b>." +
+                    "    </div>\n" +
+                    "    <div style=\"text-align: center\">\n" +
+                    "      Ký túc xá Đại học Công nghệ Sài gòn<br />\n" +
+                    "      Ban quản lý ký túc xá<br />\n" +
+                    "      Điện thoại Văn phòng:  - Điện thoại di động: \n" +
+                    "      (Zalo)\n" +
+                    "    </div>\n" +
+                    "  </body>\n" +
+                    "</html>";
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendEmail1(Email email, Student student) {
+        //Basic thôi
+        // SimpleMailMessage message = new SimpleMailMessage();
+        // message.setFrom("khoab1910240@gmail.com");
+        // message.setTo(toEmail);
+        // message.setText(body);
+        // message.setSubject(subject);
+        // mailSender.send(message);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("Dormitory@gmail.com");
+            helper.setTo(email.getToEmail());
+            helper.setSubject(email.getSubject());
+
+            // Tạo nội dung HTML với các thẻ và CSS tùy chỉnh
+            String htmlContent = "<html lang='en'>\n" +
+                    "  <head> </head>\n" +
+                    "  <body>\n" +
+                    "    <div>\n" +
+                    "      Chào em, <b>"+student.getName()+"</b>. Sau quá tình xem xét,Ban quản lý ký túc xá xin gửi kết quả phản hồi về  đơn đăng ký KTX của em\n" +
+                    "      <b></b>. Kết quả phản hòi là Không được chấp thuận\n" +
+                    "    </div>\n" +
+                    "    <div style=\"text-align: center\">\n" +
+                    "      Ký túc xá Đại học Công nghệ Sài gòn<br />\n" +
+                    "      Ban quản lý ký túc xá<br />\n" +
+                    "      Điện thoại Văn phòng:  - Điện thoại di động: \n" +
+                    "      (Zalo)\n" +
+                    "    </div>\n" +
+                    "  </body>\n" +
+                    "</html>";
             helper.setText(htmlContent, true);
             mailSender.send(message);
         } catch (MessagingException e) {
@@ -341,7 +496,7 @@ public class EmailService {
                     "                ><b\r\n" + //
                     "                  >SV không ở tiếp có thể báo ngày trả chỗ vào email:&nbsp;<i\r\n" + //
                     "                    ><a href=\"mailto:nhqviet.dth.tuyan@gmail.com\" target=\"_blank\"\r\n" + //
-                    "                      ><span class=\"il\">nhqviet.dth.tuyan</span>@gmail.com</a\r\n" + //
+                    "                      ><span class=\"il\">nhqviet.dth.tuy</span>@gmail.com</a\r\n" + //
                     "                    ></i\r\n" + //
                     "                  ></b\r\n" + //
                     "                ></span\r\n" + //
@@ -404,7 +559,7 @@ public class EmailService {
             e.printStackTrace();
         }
     }
-    public void notificationBills(Email email,Student student, String roomType, Integer numberRoom,Integer electricityConsumed,Integer waterConsumed,Bill bill){
+    public void notificationBills(Email email,Student student, String roomType, Integer numberRoom,Integer electricityConsumed,Bill bill){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         MimeMessage message = mailSender.createMimeMessage();
         try {
@@ -498,13 +653,9 @@ public class EmailService {
                     "            <span style=\"font-weight: bold\">Tiền điện</span> = Lượng điện năng\r\n" + //
                     "            tiêu thụ x đơn giá điện/kWh = "+electricityConsumed*1728+"đ\r\n" + //
                     "          </div>\r\n" + //
+
                     "          <div>\r\n" + //
-                    "            <span style=\"font-weight: bold\">Tiền nước</span> = Lượng nước tiêu\r\n" + //
-                    "            thụ x đơn giá nước/khối = "+waterConsumed*5973+"đ\r\n" + //
-                    "          </div>\r\n" + //
-                    "          <div>\r\n" + //
-                    "            <span style=\"font-weight: bold\">Tổng tiền</span> = Tiền điện + Tiền\r\n" + //
-                    "            nước = "+bill.getPrice()+"đ\r\n" + //
+                    "            <span style=\"font-weight: bold\">Tổng tiền</span> = Tiền điện "+bill.getPrice()+"đ\r\n" + //
                     "          </div>\r\n" + //
                     "          <p>\r\n" + //
                     "            <span style=\"font-weight: bold\">--->Lưu ý:</span> Vui lòng liên hệ\r\n" + //
@@ -559,10 +710,10 @@ public class EmailService {
                     "        </div>\r\n" + //
                     "      </div>\r\n" + //
                     "      <div class=\"footer\">\r\n" + //
-                    "        <p>Ký túc xá Đại học Cần Thơ</p>\r\n" + //
-                    "        <p>Trung tâm phục vụ Sinh viên - Phòng Cộng tác sinh viên</p>\r\n" + //
+                    "        <p>Ký túc xá Đại học Công Nghệ Sài Gòn</p>\r\n" + //
+                    "        <p>Ban quản lý ký túc xá</p>\r\n" + //
                     "        <p>\r\n" + //
-                    "          Điện thoại Văn phòng: 0292.3872275 - Điện thoại di động: 0975 185 994\r\n" + //
+                    "          Điện thoại Văn phòng: - Điện thoại di động:\r\n" + //
                     "          (Zalo)\r\n" + //
                     "        </p>\r\n" + //
                     "      </div>\r\n" + //

@@ -30,6 +30,8 @@ public class StudentResponseDTO {
     private Integer gender;
 
     private String classroom;
+    private String prioritize;
+
 
     private Integer status;
 }

@@ -29,5 +29,5 @@ public class AdminResource {
         return ResponseEntity.status(HttpStatus.OK).body(admin);
     }
 
-    
+
 }

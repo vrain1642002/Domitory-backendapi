@@ -12,6 +12,7 @@ public class ContractResponseDTO {
     private Integer studentId;
     private String numberStudent;
     private String name;
+    private String prioritize;
     private Integer studentStatus;
     private String major;
     private String classroom;
@@ -23,4 +24,5 @@ public class ContractResponseDTO {
     private Integer status;
     private Float totalPrice;
     private Boolean isCurrentSesmester = false;
+
 }
