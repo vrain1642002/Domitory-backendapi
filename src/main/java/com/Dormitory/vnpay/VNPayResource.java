@@ -78,7 +78,7 @@ public class VNPayResource {
                 .orElseThrow(() -> new NotFoundException("Không tồn tại hóa đơn điện nước này"));
             bill.setStatus(true);
             billRepository.save(bill);
-                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/info-student");
             } else {
                 // Giao dịch thất bại
                 // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
@@ -119,11 +119,8 @@ public class VNPayResource {
         vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl+"?contractId="+contractId);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
-        TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
-        Calendar cld = Calendar.getInstance(timeZone);
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        formatter.setTimeZone(timeZone);
-        
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
         
