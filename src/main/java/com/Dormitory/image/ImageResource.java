@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401","https://dormiotry-frontend-student-production.up.railway.app","https://dormitory-admin-frontend-production.up.railway.app"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401","https://dormitory-management-frontend-production.up.railway.app/","https://dormitory-admin-frontend-production.up.railway.app"})
 @RequestMapping("/api/v1/image")
 public class ImageResource {
     @Autowired

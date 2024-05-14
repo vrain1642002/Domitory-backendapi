@@ -26,7 +26,7 @@ import com.Dormitory.role.Role;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401","https://dormiotry-frontend-student-production.up.railway.app","https://dormitory-admin-frontend-production.up.railway.app"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401","https://dormitory-management-frontend-production.up.railway.app/","https://dormitory-admin-frontend-production.up.railway.app"})
 @RequestMapping("api/v1/user")
 public class UserResource {
     
