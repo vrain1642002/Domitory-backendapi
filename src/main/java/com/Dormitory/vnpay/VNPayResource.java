@@ -44,46 +44,51 @@ public class VNPayResource {
     @Autowired
     private BillRepository billRepository;
     @GetMapping("payment-callback")
-    public void paymentCallback(@RequestParam Map<String, String> queryParams, HttpServletResponse response) throws IOException {
+    public void paymentCallback(@RequestParam Map<String, String> queryParams,HttpServletResponse response) throws IOException {
         String vnp_ResponseCode = queryParams.get("vnp_ResponseCode");
         String contractId = queryParams.get("contractId");
         String registerServiceId = queryParams.get("registerServiceId");
         String billId = queryParams.get("billId");
-
-        if (contractId != null && !contractId.isEmpty()) {
-            handleContractPayment(queryParams, response, vnp_ResponseCode, contractId);
-        } else if (billId != null && !billId.isEmpty()) {
-            handleBillPayment(queryParams, response, vnp_ResponseCode, billId);
-        }
-        // Thêm các trường hợp khác nếu cần cho registerServiceId hoặc các tham số khác
-    }
-
-    private void handleContractPayment(Map<String, String> queryParams, HttpServletResponse response, String vnp_ResponseCode, String contractId) throws IOException {
-        if ("00".equals(vnp_ResponseCode)) {
-            Contract contract = contractRepository.findById(Integer.parseInt(contractId))
-                    .orElseThrow(() -> new NotFoundException("Không tồn tại hợp đồng này của sinh viên"));
+        if(contractId!= null && !contractId.equals("")) {
+            if ("00".equals(vnp_ResponseCode)) {
+                // Giao dịch thành công
+                // Thực hiện các xử lý cần thiết, ví dụ: cập nhật CSDL
+                Contract contract = contractRepository.findById(Integer.parseInt(queryParams.get("contractId")))
+                .orElseThrow(() -> new NotFoundException("Không tồn tại hợp đồng này của sinh viên"));
             contract.setStatus(3);
             contractRepository.save(contract);
 //            response.sendRedirect("http://localhost:4200/info-student");
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/info-student");
 
-            response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/info-student");
-        } else {
-            response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
+
+            } else {
+                // Giao dịch thất bại
+                // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
+//                response.sendRedirect("http://localhost:4200/payment-failed");
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
+
+            }
         }
-    }
 
-    private void handleBillPayment(Map<String, String> queryParams, HttpServletResponse response, String vnp_ResponseCode, String billId) throws IOException {
-        if ("00".equals(vnp_ResponseCode)) {
-            Bill bill = billRepository.findById(Integer.parseInt(billId))
-                    .orElseThrow(() -> new NotFoundException("Không tồn tại hóa đơn điện nước này"));
+        if(billId!= null && !billId.equals("")) {
+            if ("00".equals(vnp_ResponseCode)) {
+                // Giao dịch thành công
+                // Thực hiện các xử lý cần thiết, ví dụ: cập nhật CSDL
+                Bill bill = billRepository.findById(Integer.parseInt(queryParams.get("billId")))
+                .orElseThrow(() -> new NotFoundException("Không tồn tại hóa đơn điện nước này"));
             bill.setStatus(true);
             billRepository.save(bill);
-            response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/info-student");
-        } else {
-            response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
-        }
-    }
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
+            } else {
+                // Giao dịch thất bại
+                // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
 
+            }
+        }
+
+
+    }
     @GetMapping("pay")
 	public String getPay(@PathParam("price") long price,@PathParam("id") Integer contractId) throws UnsupportedEncodingException{
 		
@@ -114,8 +119,11 @@ public class VNPayResource {
         vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl+"?contractId="+contractId);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
+        Calendar cld = Calendar.getInstance(timeZone);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        formatter.setTimeZone(timeZone);
+        
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
         
