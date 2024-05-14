@@ -2,11 +2,13 @@ package com.Dormitory.user;
 
 import java.util.List;
 
+import com.Dormitory.role.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -38,7 +40,7 @@ public class UserResource {
     @PostMapping("register")
     public ResponseEntity<SuccessMessage> register( @Valid @RequestBody User user) {
         userService.register(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessMessage("Account successfully created",HttpStatusCode.valueOf(201).value()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessMessage("Đăng ký tài khoản thành công",HttpStatusCode.valueOf(201).value()));
     }
 
     @PostMapping("login")
@@ -51,6 +53,7 @@ public class UserResource {
     public ResponseEntity<List<String>> getRoleByUsername(@PathVariable("username") String username) {
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.getRoleByUsername(username));
     }
+
     @PutMapping("change-password/{username}")
     public ResponseEntity<SuccessMessage> changePassword(
             @PathVariable("username") String username,

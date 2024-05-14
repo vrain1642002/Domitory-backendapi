@@ -143,7 +143,7 @@ public class ContractService {
         Sesmester sesmester = sesmesterRepository.findByIdAndStatus(contract.getSesmester().getId(), true).orElseThrow(() -> new SesmesterDateValidationException("Học kỳ đang đóng"));
         RoomType roomType = roomTypeRepository.findByName(contract.getRoomType()).orElseThrow(() -> new NotFoundException("Không tồn tại tên loại phòng là: "+contract.getRoomType()));
         if(contractRepository.findBySesmesterIdAndStudentId(contract.getSesmester().getId(),contract.getStudent().getId()).isPresent()) {
-            throw new AlreadyExistsException("Sinh viên này đã đăng ký học kỳ này rồi");
+            throw new AlreadyExistsException("Sinh viên này đã đăng ký phòng trong đợt  này rồi");
         }
         
         //Phần xử lý tính tổng giá nguyên học kì 
@@ -211,6 +211,13 @@ public class ContractService {
         {
             Email email = new Email(student.getEmail(), "THÔNG BÁO KẾT QUẢ ĐĂNG KÝ KTX KHÔNG ĐƯỢC CHẤP THUẬN",null);
             emailService.sendEmail1(email, student);
+        }
+        if (c.getStatus()==4)
+        {
+            student.setStatus(1);
+            studentRepository.save(student);
+            Email email = new Email(student.getEmail(), "THÔNG BÁO NGƯNG HỢP ĐỒNG KTX",null);
+            emailService.sendEmail2(email, student);
         }
         contract.setStatus(c.getStatus());
 

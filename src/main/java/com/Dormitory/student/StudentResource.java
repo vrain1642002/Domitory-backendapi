@@ -2,18 +2,17 @@ package com.Dormitory.student;
 
 import java.util.Optional;
 
+import com.Dormitory.message.SuccessMessage;
+import com.Dormitory.user.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/student")
@@ -54,6 +53,11 @@ public class StudentResource {
     @GetMapping("gratuation")
     public ResponseEntity<Page<Student>> getStudentGratuation(@PageableDefault(size = 2) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudentGratuation(pageable));
+    }
+    @PostMapping("register")
+    public ResponseEntity<SuccessMessage> register(@Valid @RequestBody Student student) {
+        studentService.register(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessMessage("Đăng kí thành cng", HttpStatusCode.valueOf(201).value()));
     }
 
 }

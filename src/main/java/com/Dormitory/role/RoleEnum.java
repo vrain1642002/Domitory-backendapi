@@ -4,5 +4,5 @@ public enum RoleEnum {
     ADMIN,
 
     STUDENT,
-    LEAD
+
 }

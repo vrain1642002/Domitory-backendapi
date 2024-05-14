@@ -52,11 +52,11 @@ public class UserService {
 
         // Nếu tài khoản tồn tại thì ném ra exception
         if(userRepository.existsByUsername(user.getUsername())) {
-            throw new AlreadyExistsException("Account already exists");
+            throw new AlreadyExistsException("Đã tồn tại tài khoản");
         }
 
         
-        Role role = roleRepository.findByName("LEAD");
+        Role role = roleRepository.findByName("STUDENT");
 
         // Set role
         user.setRoles(Collections.singletonList(role));
@@ -86,8 +86,8 @@ public class UserService {
     }
     @Transactional
     public void changePassword(String username, String oldPassword, String newPassword) {
-        User existingUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
+        User existingUser = userRepository.findByUsername(username);
+
 
         // Check if the old password matches
         if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {

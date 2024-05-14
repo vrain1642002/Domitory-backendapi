@@ -46,9 +46,9 @@ public class FeedbackService {
     }
 
     public void updateStatus(Integer id, FeedbackRequestDTO requestDTO) {
-        if (requestDTO.getEditDate().compareTo(LocalDate.now()) <= 0) {
-            throw new InvalidValueException("Ngày sửa chữa phải lớn hơn ngày hiện tại");
-        }
+//        if (requestDTO.getEditDate().compareTo(LocalDate.now()) <= 0) {
+//            throw new InvalidValueException("Ngày sửa chữa phải lớn hơn ngày hiện tại");
+//        }
         Feedback r = FeedbackRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Không tồn tại phản hồi này"));
         Admin admin = adminRepository.findById(requestDTO.getAdminId()).orElseThrow(() -> new NotFoundException("Không tồn tại admin này"));

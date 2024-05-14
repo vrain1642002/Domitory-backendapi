@@ -180,6 +180,7 @@ public class EmailService {
             e.printStackTrace();
         }
     }
+
     public void sendEmail1(Email email, Student student) {
         //Basic thôi
         // SimpleMailMessage message = new SimpleMailMessage();
@@ -218,6 +219,45 @@ public class EmailService {
             e.printStackTrace();
         }
     }
+    public void sendEmail2(Email email, Student student) {
+        //Basic thôi
+        // SimpleMailMessage message = new SimpleMailMessage();
+        // message.setFrom("khoab1910240@gmail.com");
+        // message.setTo(toEmail);
+        // message.setText(body);
+        // message.setSubject(subject);
+        // mailSender.send(message);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("Dormitory@gmail.com");
+            helper.setTo(email.getToEmail());
+            helper.setSubject(email.getSubject());
+
+            // Tạo nội dung HTML với các thẻ và CSS tùy chỉnh
+            String htmlContent = "<html lang='en'>\n" +
+                    "  <head> </head>\n" +
+                    "  <body>\n" +
+                    "    <div>\n" +
+                    "      Chào em, <b>"+student.getName()+"</b>. Sau quá tình xem xét,Ban quản lý ký túc xin thông báo với em\n" +
+                    "      <b></b>. Kết quả ngưng hợp đồng KTX và thêm em vào danh sách đen \n" +
+                    "    </div>\n" +
+                    "    <div style=\"text-align: center\">\n" +
+                    "      Ký túc xá Đại học Công nghệ Sài gòn<br />\n" +
+                    "      Ban quản lý ký túc xá<br />\n" +
+                    "      Điện thoại Văn phòng:  - Điện thoại di động: \n" +
+                    "      (Zalo)\n" +
+                    "    </div>\n" +
+                    "  </body>\n" +
+                    "</html>";
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendEmail(Email email, Student student,RoomType roomType, Room room, Sesmester sesmester,Contract contract) {
         //Basic thôi
         // SimpleMailMessage message = new SimpleMailMessage();
@@ -301,7 +341,7 @@ public class EmailService {
                     "        </tr>\r\n" + //
                     "        <tr>\r\n" + //
                     "          <td class=\"title\">Ngày sinh:</td>\r\n" + //
-                    "          <td>"+formatter.format(student.getBirthday())+"</td>\r\n" + //
+//                    "          <td>"+formatter.format(student.getBirthday())+"</td>\r\n" + //
                     "        </tr>\r\n" + //
                     "        <tr>\r\n" + //
                     "          <td class=\"title\">Giới tính:</td>\r\n" + //

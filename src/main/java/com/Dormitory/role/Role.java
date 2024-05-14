@@ -21,5 +21,7 @@ public class Role {
     private Integer id;
 
     private String name;
-    
+
+    public  static String ADMIN="ADMIN";
+    public  static String STUDENT="STUDENT";
 }
