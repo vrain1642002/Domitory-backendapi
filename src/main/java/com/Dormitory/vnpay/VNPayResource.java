@@ -119,9 +119,23 @@ public class VNPayResource {
         vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl+"?contractId="+contractId);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+//        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//        String vnp_CreateDate = formatter.format(cld.getTime());
+//        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+        // Tạo một đối tượng Calendar và đặt múi giờ thành US West
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles"));
+
+// Sử dụng đối tượng SimpleDateFormat để định dạng thời gian theo định dạng yyyyMMddHHmmss
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+
+// Định dạng thời gian theo múi giờ US West
+        formatter.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+
+// Lấy thời gian hiện tại theo múi giờ đã đặt
         String vnp_CreateDate = formatter.format(cld.getTime());
+
+// Đặt giá trị vào tham số vnp_CreateDate
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
         
         cld.add(Calendar.MINUTE, 15);
