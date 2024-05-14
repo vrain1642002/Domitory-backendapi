@@ -35,7 +35,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.websocket.server.PathParam;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401","https://dormiotry-frontend-student-production.up.railway.app","https://dormitory-admin-frontend-production.up.railway.app"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4401","https://dormitory-management-frontend-production.up.railway.app/","https://dormitory-admin-frontend-production.up.railway.app"})
 @RequestMapping("api/v1")
 public class VNPayResource {
     @Autowired
@@ -57,12 +57,16 @@ public class VNPayResource {
                 .orElseThrow(() -> new NotFoundException("Không tồn tại hợp đồng này của sinh viên"));
             contract.setStatus(3);
             contractRepository.save(contract);
-            response.sendRedirect("http://localhost:4200/info-student");
+//            response.sendRedirect("http://localhost:4200/info-student");
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/info-student");
+
+
             } else {
                 // Giao dịch thất bại
                 // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
-                response.sendRedirect("http://localhost:4200/payment-failed");
-                
+//                response.sendRedirect("http://localhost:4200/payment-failed");
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
+
             }
         }
 
@@ -78,7 +82,7 @@ public class VNPayResource {
             } else {
                 // Giao dịch thất bại
                 // Thực hiện các xử lý cần thiết, ví dụ: không cập nhật CSDL\
-                response.sendRedirect("http://localhost:4200/payment-failed");
+                response.sendRedirect("https://dormitory-management-frontend-production.up.railway.app/payment-failed");
                 
             }
         }
